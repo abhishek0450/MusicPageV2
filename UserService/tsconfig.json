@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    
+    "target": "es2020",                                
+    "module": "NodeNext", 
+    "rootDir": "./src",                                  
+    "outDir": "./dist",
+    "removeComments": true,
+    "allowJs": true,                             
+    "esModuleInterop": true,    
+    "forceConsistentCasingInFileNames": true,  
+    "strict": true,            
+    "skipLibCheck": true                               
+  }
+}
