@@ -14,7 +14,7 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
         if (user) {
             res.status(400).json({ message: "User already exists" });
 
-            return; // exit the function
+            return; 
         }
         const salt : string = await bcrypt.genSalt(10);
         const hashPassword : string = await bcrypt.hash(password, salt);
@@ -26,7 +26,15 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
         })
 
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET as string);
+        const token = jwt.sign(
+            { 
+                userId: user._id.toString(), 
+                role: user.role,
+                email: user.email 
+            }, 
+            process.env.JWT_SECRET as string,
+            { expiresIn: '24h' }
+        );
         
         await user.save();
 
@@ -64,7 +72,15 @@ export const loginUser = async (req: Request, res : Response): Promise<void> => 
             return;
         }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET as string);
+        const token = jwt.sign(
+            { 
+                userId: user._id.toString(), 
+                role: user.role,
+                email: user.email 
+            }, 
+            process.env.JWT_SECRET as string,
+            { expiresIn: '24h' }
+        );
         
 
         res.status(201).json({

@@ -1,10 +1,11 @@
-import axios from "axios";
+import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 
 interface AuthenticatedRequest extends Request {
     user?: {
         _id: string;
         role: string;
+        email?: string;
     };
 }
 
@@ -16,32 +17,36 @@ export const isAuth = async (req: AuthenticatedRequest, res: Response, next: Nex
             return;
         }
 
-        // Fetch user details from authentication service
-        const { data } = await axios.get(`${process.env.USER_URL}/api/v1/user/me`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        // Verify token locally - NO external API call
+        const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
+            userId: string;
+            role: string;
+            email?: string;
+        };
 
-        console.log("User Data from Auth Service:", data); // Debug log
+        // Attach user info to request from JWT payload
+        req.user = {
+            _id: decoded.userId,
+            role: decoded.role,
+            email: decoded.email,
+        };
 
-        // ✅ Ensure `req.user` directly contains `_id` and `role`
-        if (data && data.user) {
-            req.user = {
-                _id: data.user._id,
-                role: data.user.role,
-            };
-        } else {
-            console.error("Invalid user data format:", data);
-            res.status(401).json({ message: "Unauthorized: Invalid user data" });
-            return;
-        }
+        console.log("User authenticated from JWT:", req.user); // Debug log
 
         next();
     } catch (error) {
         console.error("Error in authentication middleware:", error);
         res.status(401).json({ message: "Unauthorized: Token verification failed" });
     }
+};
+
+// Middleware to check if user is admin
+export const isAdmin = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
+    if (!req.user || req.user.role !== "admin") {
+        res.status(403).json({ message: "Forbidden: Admin access required" });
+        return;
+    }
+    next();
 };
 
 
