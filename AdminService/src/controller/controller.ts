@@ -223,9 +223,6 @@ export const addAlbums = async (req: AuthenticatedRequest, res: Response) : Prom
           });
         }
     };
-            
-        }
-    };
  
  export const deleteAlbum = async (req : AuthenticatedRequest, res: Response) : Promise<void> => {
         try {
