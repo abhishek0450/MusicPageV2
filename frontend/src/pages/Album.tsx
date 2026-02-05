@@ -4,7 +4,6 @@ import { useSongData } from "../context/SongContext";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
 import {  FaPlay } from "react-icons/fa";
-import { useUserData } from "../context/UserContext";
 
 const Album = () => {
   const {
@@ -15,8 +14,6 @@ const Album = () => {
     setSelectedSong,
     loading,
   } = useSongData();
-
-  const { isAuth, addToPlaylist } = useUserData();
 
   const params = useParams<{ id: string }>();
 
