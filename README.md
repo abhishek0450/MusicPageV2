@@ -55,3 +55,6 @@ Ensure you have the following installed or available:
 *   `POST /api/v1/song/:id` - Add Song to User's Playlist
 
 ### Screenshots
+<img width="1360" height="595" alt="Screenshot 2026-01-12 212054" src="https://github.com/user-attachments/assets/656f63ae-7b6b-464c-ae3d-32bf374aca37" />
+<img width="249" height="530" alt="Screenshot 2026-01-05 001436" src="https://github.com/user-attachments/assets/e37e4b14-98b4-472c-ae33-81433377763d" />
+<img width="1365" height="594" alt="Screenshot 2026-01-04 215830" src="https://github.com/user-attachments/assets/6b857193-8ea1-4a76-9b44-08ba5735a6b4" />
